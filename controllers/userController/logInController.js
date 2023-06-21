@@ -20,12 +20,12 @@ const handleLogin = async (req, res) => {
           cnic: foundUser.cnic,
         },
       },
-      process.env.ACCESS_TOKEN_SECRET,
+      "3cdfe16c4d89c3936dfbacbf1da0532a4f24aa2bd222052e71b215c68570159b9d846867469f4dcd23a8b7105e2458f49e277bae7c4ad0f42a2ae642c9fa78bb",
       { expiresIn: "1h" }
     );
     const refreshToken = jwt.sign(
       { cnic: foundUser.cnic },
-      process.env.REFRESH_TOKEN_SECRET,
+      "c990dd3b65fd0a717fade455c18f6ec694d07b66b49baa3476292b9e94ff334e895a90fa51d5fd7fd631292913af196965c5e4a494249ada6350fb6f8b42ce51",
       { expiresIn: "1d" }
     );
     // Saving refreshToken with current user
