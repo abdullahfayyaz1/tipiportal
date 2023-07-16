@@ -2,14 +2,12 @@ require("dotenv").config();
 const express = require("express");
 const corsOptions = require("./config/corsOptions");
 const cors = require("cors");
-const listEndpoints = require("express-list-endpoints");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 
 const credentials = require("./middleware/credentials");
 const connectDB = require("./config/dbConn");
 const verifyJWT = require("./middleware/verifyJWT");
-const usersController = require("./controllers/userController/usersController");
 
 const app = express();
 const PORT = process.env.PORT || 3500;
@@ -33,11 +31,6 @@ app.use(express.json());
 //middleware for cookies
 app.use(cookieParser());
 
-// routes
-app.get("/routes", (req, res) => {
-  const routes = listEndpoints(app);
-  res.json(routes);
-});
 
 app.get("/", (req, res) => {
   res.json("TIPI BOT BACKEND");
@@ -46,8 +39,6 @@ app.get("/", (req, res) => {
 app.use("/auth", require("./routes/userRoutes"));
 // app.use(verifyJWT);
 app.use("", require("./routes/pictureRoutes"));
-
-// app.use('', require('./routes/parcelRoutes'));
 
 // app.all('*', (req, res) => {
 //     res.status(404);

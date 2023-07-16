@@ -29,6 +29,7 @@ const handleNewPicture = async (req, res) => {
   if (!pictureId) res.status(404).json({ message: "No picture" });
 
   try {
+    // saving picture id to User's picture
     const user = await User.findById(req.params.userId);
     user.pictures.push(pictureId);
     await user.save();
@@ -42,7 +43,7 @@ const handleNewPicture = async (req, res) => {
 const getAllPictures = async (req, res) => {
   if (!req?.params?.userId)
     return res.status(400).json({ message: "User ID required" });
-
+// finding pics for respected user
   let pictures = await Picture.find({ user: req.params.userId }).exec();
   // console.log(pictures)
 
@@ -51,20 +52,8 @@ const getAllPictures = async (req, res) => {
     return res.status(204).json({ message: "No Pictures found." });
   }
 
-  // let data;
-  // data = pictures.map((picture) => {
-  //   return {
-  //     ...picture,
-  //     path: picture.path,
-  //   };
-  // });
-
-  // console.log(data);
-
   // Read each image file, encode as Base64, and include it in the response
   pictures = pictures.map((item) => {
-    // const imagePath = mypath.join(__dirname, item.path);
-    // console.log(item.path);
     const imageBase64 = fs.readFileSync(item.path, { encoding: "base64" });
 
     return {
@@ -74,8 +63,6 @@ const getAllPictures = async (req, res) => {
       imageData: imageBase64,
     };
   });
-
-  // console.log(pictures);
 
   res.json({ pictures });
 };
